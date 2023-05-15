@@ -8,48 +8,11 @@ import io.vertx.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
-
-class Subscriber1 extends AbstractVerticle {
-  @Override
-  public void start(Promise<Void> startPromise) throws Exception {
-
-    System.out.println("Hello In Start");
-    vertx.eventBus().<String>consumer(Publisher.class.getName(), message -> {
-      System.out.println("Received by S2"+ message.body());
-    });
-
-    startPromise.complete();
-  }
-}
-class Publisher extends AbstractVerticle {
-  @Override
-  public void start(Promise<Void> startPromise) throws Exception {
-
-    vertx.setPeriodic(Duration.ofSeconds(3).toMillis(), id -> {
-      vertx.eventBus().publish(Publisher.class.getName(), "Message published");
-    });
-
-    startPromise.complete();
-  }
-}
-class Subscriber2 extends AbstractVerticle {
-  @Override
-  public void start(Promise<Void> startPromise) throws Exception {
-
-    vertx.eventBus().<String>consumer(Publisher.class.getName(), message -> {
-      System.out.println("Received by S2"+ message.body());
-    });
-    startPromise.complete();
-  }
-}
-
-
 public class PublishSubscribe {
   private static final Logger LOGGER = LoggerFactory.getLogger(WorkerExample.class);
 
   public static void main(String[] args) {
-    var vertx = Vertx.vertx();
+    Vertx vertx = Vertx.vertx();
 
     vertx.deployVerticle(Publisher.class.getName() , new DeploymentOptions().setInstances(1)).onComplete(handler -> {
       if (handler.succeeded()) {

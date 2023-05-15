@@ -4,6 +4,7 @@ import com.manas.starter_gradle.worker.WorkerExample;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,10 +23,15 @@ public class PointToPoint {
   static class Sender extends AbstractVerticle {
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
+
+//      vertx.setPeriodic(1000 ,id -> {
+      Buffer buffer = Buffer.buffer();
+      buffer.appendInt(1);
+      vertx.eventBus().send(Sender.class.getName(), buffer);
+      buffer.setInt(0, 2);
+      vertx.eventBus().send(Sender.class.getName(), buffer);
+//      });
       startPromise.complete();
-      vertx.setPeriodic(1000 ,id -> {
-        vertx.eventBus().send(Sender.class.getName(), "Sending a message");
-      });
     }
   }
 
@@ -33,8 +39,14 @@ public class PointToPoint {
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
       startPromise.complete();
-      vertx.eventBus().<String>consumer(Sender.class.getName(), message -> {
-        LOGGER.debug("Received {}", message.body());
+      vertx.eventBus().consumer(Sender.class.getName(), message -> {
+        Buffer buffer = (Buffer) message.body();
+        LOGGER.debug("Received {}", buffer.getInt(0));
+      });
+
+      vertx.eventBus().consumer(Sender.class.getName(), message -> {
+        Buffer buffer = (Buffer) message.body();
+        LOGGER.debug("Received {}", buffer.getInt(0));
       });
     }
   }
