@@ -25,6 +25,10 @@ public class WorkerExample extends AbstractVerticle {
     LOGGER.debug("Deployed as worker verticle");
     startPromise.complete();
     executeBlockingCode();
+    executeBlockingCode();
+    executeBlockingCode();
+    executeBlockingCode();
+    executeBlockingCode();
     LOGGER.debug("Blocking operation done");
   }
 
@@ -38,7 +42,7 @@ public class WorkerExample extends AbstractVerticle {
         LOGGER.error("Failed: ", e);
         event.fail(e);
       }
-    }, result -> { // will be executed in event loop thread
+    },false, result -> { // will be executed in event loop thread
       if (result.succeeded()) {
         LOGGER.debug("Blocking call done");
       } else {

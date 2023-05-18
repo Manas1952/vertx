@@ -1,12 +1,22 @@
 var sock = new SockJS('http://localhost:8080/myApp');
+var eb = new EventBus('http://localhost:8080/myApp');
 
-sock.onopen = function() {
+eb.enableReconnect(true);
+
+eb.onopen = function() {
  console.log('open');
- sock.send('test');
+
+ var count = 0;
+ eb.registerHandler('hello.publish', (error, message) => {
+    count++;
+    console.log(count + ', received a message: ' + JSON.stringify(message));
+  });
+
+  eb.send('hello.consume', {name: 'tim', age: 587});
 };
 
 sock.onmessage = function(e) {
- console.log(e.data);
+ console.log('onmessage -> ', e.data);
 };
 
 sock.onevent = function(event, message) {

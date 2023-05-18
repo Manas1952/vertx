@@ -21,24 +21,26 @@ public class Server extends AbstractVerticle {
     router.route("/static/*").handler(StaticHandler.create("webroot").setIndexPage("index.html")); // default is 'webroot/index.html'
 
     router.route("/private/*").handler(basicAuthHandler);
-    router.route("/private/path").handler(context -> {
-
-      JsonObject authInfo = new JsonObject()
-        .put("username", "tim").put("password", "morris_dancer");
-
-      authProvider.authenticate(authInfo)
-        .onSuccess(user -> {
-          System.out.println("User " + user.principal() + " is now authenticated");
-
-          context.response().end("private");
-        })
-        .onFailure(result -> {
-          context.response().end("not authenticated");
-          System.out.println(result.getMessage());
-        });
-
-
+    router.route("/private/*").handler(context -> {
+      context.response().end("private data");
     });
+
+//    router.route("/private/path").handler(context -> {
+
+//      JsonObject authInfo = new JsonObject()
+//        .put("username", "tim").put("password", "wrongPassword");
+
+//      authProvider.authenticate(authInfo)
+//        .onSuccess(user -> {
+//          System.out.println("User " + user.principal() + " is now authenticated");
+//
+//          context.response().end("private");
+//        })
+//        .onFailure(result -> {
+//          context.response().end("not authenticated");
+//          System.out.println(result.getMessage());
+//        });
+//    });
 
     vertx.createHttpServer().requestHandler(router).listen(8080);
 

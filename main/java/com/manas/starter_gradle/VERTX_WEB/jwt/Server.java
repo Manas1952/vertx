@@ -32,8 +32,12 @@ public class Server extends AbstractVerticle {
       if ("paulo".equals(ctx.request().getParam("username")) && "secret".equals(ctx.request().getParam("password"))) {
 
         System.out.println("handled");
+
+        String token = ctx.request().headers().get("Authorization").split(" ")[1];
+
+        System.out.println(token);
         jwt.authenticate(new JsonObject()
-            .put("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwYXVsbyIsImlhdCI6MTY4NDE2ODc4MH0.BZsM1WBe6QOyY2v7Mvlgo9LeHJM4rwjFYCKCUd2e5yI")
+            .put("token", token)
             .put("options", new JsonObject()
               .put("ignoreExpiration", true)))
           .onSuccess(user -> {

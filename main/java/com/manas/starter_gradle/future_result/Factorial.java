@@ -11,7 +11,7 @@ public class Factorial {
 
     vertx.deployVerticle(new MyVerticle());
 
-    System.out.println("insid main");
+    System.out.println("inside main");
   }
 }
 
