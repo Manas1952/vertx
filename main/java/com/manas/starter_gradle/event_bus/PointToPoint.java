@@ -27,9 +27,11 @@ public class PointToPoint {
 //      vertx.setPeriodic(1000 ,id -> {
       Buffer buffer = Buffer.buffer();
       buffer.appendInt(1);
-      vertx.eventBus().send(Sender.class.getName(), buffer);
+
+      vertx.eventBus().send(Sender.class.getName(), "buffer");
+
       buffer.setInt(0, 2);
-      vertx.eventBus().send(Sender.class.getName(), buffer);
+      vertx.eventBus().send(Sender.class.getName(), "buffer1");
 //      });
       startPromise.complete();
     }

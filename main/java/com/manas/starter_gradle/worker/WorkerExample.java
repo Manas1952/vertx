@@ -16,7 +16,7 @@ public class WorkerExample extends AbstractVerticle {
     vertx.deployVerticle(new WorkerExample(), new DeploymentOptions()
 //      .setWorker(true)
 //      .setWorkerPoolSize(1)
-      .setWorkerPoolName("my-worker-verticle")
+        .setWorkerPoolName("my-worker-verticle")
     );
   }
 
@@ -34,20 +34,22 @@ public class WorkerExample extends AbstractVerticle {
 
   private void executeBlockingCode() {
     vertx.executeBlocking(event -> { // will be executed in worker thread
-      LOGGER.debug("Execution blocking code");
-      try {
-        Thread.sleep(5000);
-        event.complete();
-      } catch (InterruptedException e) {
-        LOGGER.error("Failed: ", e);
-        event.fail(e);
-      }
-    },false, result -> { // will be executed in event loop thread
-      if (result.succeeded()) {
-        LOGGER.debug("Blocking call done");
-      } else {
-        LOGGER.debug("Blocking call failed due to: ", result.cause());
-      }
-    });
+        LOGGER.debug("Execution blocking code");
+        try {
+          Thread.sleep(5000);
+          event.complete();
+        } catch (InterruptedException e) {
+          LOGGER.error("Failed: ", e);
+          event.fail(e);
+        }
+      },
+      true,
+      result -> { // will be executed in event loop thread
+        if (result.succeeded()) {
+          LOGGER.debug("Blocking call done");
+        } else {
+          LOGGER.debug("Blocking call failed due to: ", result.cause());
+        }
+      });
   }
 }

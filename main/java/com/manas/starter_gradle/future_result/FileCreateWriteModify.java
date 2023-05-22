@@ -32,7 +32,6 @@ public class FileCreateWriteModify {
          return fileSystem.move("/home/manas/myFile.txt", "/home/manas/Downloads/myFile.txt");
         });
 
-      System.out.println(future.result());
     }
   }
 }

@@ -25,7 +25,7 @@ public class FileRead {
     System.out.println("1");
 
     fileSystem.readFile("/home/manas/TEST.txt", asyncResult -> {
-      System.out.println(asyncResult.result());
+      System.out.println("->" + asyncResult.result());
     });
 
     System.out.println("2");

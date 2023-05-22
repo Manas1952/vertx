@@ -7,6 +7,8 @@ import io.vertx.core.Vertx;
 public class Timer {
   public static void main(String[] args) {
     var vertx = Vertx.vertx();
+    System.out.println(Thread.currentThread().getName());
+
     vertx.deployVerticle(new MyVerticle());
   }
 }
@@ -14,7 +16,7 @@ public class Timer {
 class MyVerticle extends AbstractVerticle {
   @Override
   public void start(Promise<Void> startPromise) throws Exception {
-    long timerID = vertx.setTimer(1000, id -> {
+    long timerID = vertx.setTimer(5000, id -> {
       System.out.println("1 sec done, " + Thread.currentThread().getName());
     });
 

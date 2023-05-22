@@ -19,6 +19,7 @@ public class FuturePromise {
 
   @Test
   void promise_success(Vertx vertx, VertxTestContext context) {
+
     final Promise<String> promise = Promise.promise();
     LOGGER.debug("Start");
 
@@ -147,7 +148,7 @@ public class FuturePromise {
 
       if(handler.succeeded())
       {
-        System.out.println("sucess all");
+        System.out.println("success all");
       }
       else {
         System.out.println("failed all");
