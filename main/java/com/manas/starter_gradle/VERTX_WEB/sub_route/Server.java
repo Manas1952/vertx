@@ -15,7 +15,8 @@ public class Server extends AbstractVerticle {
 
     Router restAPI = Router.router(vertx);
 
-    restAPI.get("/products/:productID").handler(context -> {
+    restAPI.get("/products/:productID-:name").handler(context -> {
+      System.out.println(context.pathParam("productID") + ", " + context.pathParam("name"));
       context.response().end("Your Product");
     });
 

@@ -28,10 +28,10 @@ public class PointToPoint {
       Buffer buffer = Buffer.buffer();
       buffer.appendInt(1);
 
-      vertx.eventBus().send(Sender.class.getName(), "buffer");
+      vertx.eventBus().send(Sender.class.getName(), buffer);
 
       buffer.setInt(0, 2);
-      vertx.eventBus().send(Sender.class.getName(), "buffer1");
+      vertx.eventBus().send(Sender.class.getName(), buffer);
 //      });
       startPromise.complete();
     }

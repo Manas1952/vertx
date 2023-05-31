@@ -7,8 +7,6 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 
-import java.util.HashMap;
-
 public class Server extends AbstractVerticle {
   @Override
   public void start(Promise<Void> startPromise) throws Exception {
